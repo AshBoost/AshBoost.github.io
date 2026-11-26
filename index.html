@@ -1,0 +1,248 @@
+<!doctype html>
+<html lang="pl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Ashboost – optymalizacja Windows 11, NVIDIA i gier.">
+  <meta name="theme-color" content="#070b14">
+  <title>Ashboost | PC Optimization</title>
+  <style>
+    :root {
+      --bg:#070b14; --panel:#0d1525; --panel2:#101d32;
+      --blue:#36a8ff; --cyan:#73d5ff; --text:#eef6ff;
+      --muted:#a5b5c9; --line:#1d304b;
+    }
+    * { box-sizing:border-box; }
+    html { scroll-behavior:smooth; scroll-padding-top:90px; }
+    body {
+      margin:0; background:radial-gradient(ellipse at 75% 0%,#102b4b 0,transparent 36%),var(--bg);
+      color:var(--text); font:16px/1.6 Inter,Segoe UI,Arial,sans-serif;
+    }
+    a { color:inherit; text-decoration:none; }
+    .wrap { width:min(1100px,92%); margin:auto; }
+    header {
+      position:sticky; top:0; z-index:20; background:#070b14dd;
+      backdrop-filter:blur(16px); border-bottom:1px solid #ffffff12;
+    }
+    nav { min-height:72px; display:flex; align-items:center; justify-content:space-between; gap:20px; }
+    .logo { font-size:1.35rem; font-weight:900; letter-spacing:2px; white-space:nowrap; }
+    .logo span { color:var(--blue); }
+    .links { display:flex; align-items:center; gap:25px; color:var(--muted); font-size:.92rem; }
+    .links a { transition:color .2s ease; }
+    .links a:hover, .links a:focus-visible { color:white; }
+    .btn {
+      display:inline-flex; align-items:center; justify-content:center; padding:12px 19px;
+      border-radius:10px; background:linear-gradient(135deg,#1689e8,#42baff);
+      color:#03101e; font-weight:800; box-shadow:0 8px 30px #1689e833;
+      transition:transform .2s ease,filter .2s ease,box-shadow .2s ease;
+    }
+    .btn:hover { transform:translateY(-2px); filter:brightness(1.1); box-shadow:0 12px 34px #1689e855; }
+    .btn.secondary { background:#12243b; color:#dceeff; border:1px solid #294969; box-shadow:none; }
+    .menu-toggle {
+      display:none; border:1px solid #294969; color:var(--text); background:#12243b;
+      border-radius:9px; padding:9px 12px; font-size:1.1rem; cursor:pointer;
+    }
+    .hero { padding:105px 0 85px; display:grid; grid-template-columns:1.2fr .8fr; gap:55px; align-items:center; }
+    .tag {
+      display:inline-block; border:1px solid #24517a; background:#10243a; color:#8bd1ff;
+      padding:7px 12px; border-radius:99px; font-size:.78rem; font-weight:800; letter-spacing:1.5px;
+    }
+    h1 { font-size:clamp(2.6rem,6vw,4.7rem); line-height:1.04; letter-spacing:-2px; margin:22px 0; }
+    h1 span { color:var(--blue); }
+    .lead { color:var(--muted); max-width:590px; font-size:1.1rem; }
+    .actions { display:flex; gap:12px; flex-wrap:wrap; margin-top:28px; }
+    .visual {
+      min-height:320px; border:1px solid #23466a; border-radius:24px;
+      background:linear-gradient(145deg,#102744,#0a1220 70%); display:grid; place-items:center;
+      position:relative; overflow:hidden; box-shadow:0 25px 80px #0008;
+    }
+    .visual:before,.visual:after {
+      content:""; position:absolute; border:1px solid #3aaaff55; border-radius:50%;
+      width:260px; height:260px; animation:pulse 5s ease-in-out infinite;
+    }
+    .visual:after { width:190px; height:190px; animation-delay:1s; }
+    .chip { z-index:1; text-align:center; }
+    .chip strong { display:block; font-size:5.5rem; line-height:1; color:#73caff; text-shadow:0 0 35px #1689e8; }
+    .chip small { color:#9fc8e9; letter-spacing:4px; font-weight:800; }
+    section { padding:72px 0; }
+    .section-head { text-align:center; margin-bottom:34px; }
+    .eyebrow { color:var(--blue); font-size:.78rem; font-weight:900; letter-spacing:2px; }
+    .section-head h2 { font-size:2.2rem; margin:8px 0; }
+    .section-head p { color:var(--muted); margin:0; }
+    .grid { display:grid; grid-template-columns:repeat(3,1fr); gap:17px; }
+    .card {
+      background:linear-gradient(160deg,#101d30,#0b1220); border:1px solid var(--line);
+      border-radius:17px; padding:24px; transition:transform .25s ease,border-color .25s ease,box-shadow .25s ease;
+    }
+    .card:hover { transform:translateY(-5px); border-color:#287db8; box-shadow:0 16px 38px #0005; }
+    .card .icon { font-size:1.7rem; }
+    .card h3 { margin:12px 0 7px; }
+    .card p,.card li { color:var(--muted); font-size:.94rem; }
+    .card ul { padding-left:19px; margin-bottom:0; }
+    .price { font-size:2rem; font-weight:900; margin:15px 0 3px; }
+    .featured { border-color:#268bd1; box-shadow:0 0 35px #1689e81a; position:relative; }
+    .popular { position:absolute; right:17px; top:17px; color:#8bd1ff; font-size:.7rem; font-weight:900; letter-spacing:1px; }
+    .note { color:var(--muted); font-size:.85rem; text-align:center; margin-top:22px; }
+    .steps { display:grid; grid-template-columns:repeat(4,1fr); gap:14px; }
+    .step { padding:20px; border:1px solid var(--line); border-radius:14px; background:#0b1422; }
+    .num { color:var(--blue); font-weight:900; font-size:1.4rem; }
+    .reviews { display:grid; grid-template-columns:repeat(3,1fr); gap:17px; }
+    .review { background:linear-gradient(160deg,#101d30,#0b1220); border:1px solid var(--line); border-radius:17px; padding:23px; }
+    .stars { color:#72caff; letter-spacing:3px; font-size:1.05rem; }
+    .review p { color:var(--muted); }
+    .review strong { display:block; margin-top:15px; }
+    .review small { color:#8294aa; }
+    .review-note { text-align:center; color:var(--muted); font-size:.84rem; margin-top:18px; }
+    .cta { padding:38px; border:1px solid #24517a; border-radius:22px; background:linear-gradient(120deg,#102c49,#0b1422); text-align:center; }
+    .cta p { color:var(--muted); }
+    footer { border-top:1px solid #ffffff12; padding:25px 0; color:#8294aa; font-size:.85rem; }
+    .foot { display:flex; justify-content:space-between; gap:15px; flex-wrap:wrap; }
+    .reveal { opacity:0; transform:translateY(22px); transition:opacity .7s ease,transform .7s ease; }
+    .reveal.visible { opacity:1; transform:translateY(0); }
+    @keyframes pulse { 0%,100% { transform:scale(.94); opacity:.45; } 50% { transform:scale(1.08); opacity:.9; } }
+    @media (prefers-reduced-motion:reduce) {
+      *,*::before,*::after { scroll-behavior:auto !important; animation-duration:.01ms !important; transition-duration:.01ms !important; }
+      .reveal { opacity:1; transform:none; }
+    }
+    @media(max-width:800px) {
+      .hero { grid-template-columns:1fr; padding:75px 0 55px; }
+      .visual { min-height:230px; }
+      .grid,.reviews { grid-template-columns:1fr; }
+      .steps { grid-template-columns:1fr 1fr; }
+      .links { gap:12px; }
+    }
+    @media(max-width:620px) {
+      .menu-toggle { display:block; }
+      nav { position:relative; }
+      .links {
+        display:none; position:absolute; top:71px; left:0; right:0; padding:16px;
+        background:#0b1422; border:1px solid var(--line); border-radius:0 0 14px 14px;
+        flex-direction:column; align-items:stretch; gap:0;
+      }
+      .links.open { display:flex; }
+      .links a { padding:11px 8px; }
+      nav > .btn { display:none; }
+    }
+    @media(max-width:480px) {
+      .steps { grid-template-columns:1fr; }
+      .section-head h2 { font-size:1.8rem; }
+      .cta { padding:27px 19px; }
+    }
+  </style>
+</head>
+<body>
+<header>
+  <div class="wrap">
+    <nav aria-label="Nawigacja główna">
+      <a class="logo" href="#">ASH<span>BOOST</span></a>
+      <div class="links" id="navLinks">
+        <a href="#uslugi">Usługi</a>
+        <a href="#cennik">Cennik</a>
+        <a href="#opinie">Opinie</a>
+        <a href="#jak">Jak działamy</a>
+      </div>
+      <a class="btn" href="#kontakt">Kontakt</a>
+      <button class="menu-toggle" id="menuToggle" aria-label="Otwórz menu" aria-expanded="false">☰</button>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <div class="wrap hero">
+    <div class="reveal">
+      <span class="tag">PC OPTIMIZATION • WINDOWS • GAMING</span>
+      <h1>TWÓJ PC.<br><span>WIĘKSZA</span><br>WYDAJNOŚĆ.</h1>
+      <p class="lead">Pomagamy uporządkować Windows 11, skonfigurować ustawienia NVIDIA i dostosować gry do Twojego sprzętu. Bez magicznych obietnic — liczy się rozsądna konfiguracja i realne testy.</p>
+      <div class="actions">
+        <a class="btn" href="#cennik">Zobacz cennik</a>
+        <a class="btn secondary" href="https://discord.gg/vr5Qd4cEd" target="_blank" rel="noopener">Dołącz na Discord</a>
+      </div>
+    </div>
+    <div class="visual reveal">
+      <div class="chip"><strong>A</strong><small>ASHBOOST</small></div>
+    </div>
+  </div>
+
+  <section id="uslugi"><div class="wrap">
+    <div class="section-head reveal"><div class="eyebrow">CO ROBIMY</div><h2>Usługi Ashboost</h2><p>Podstawowa optymalizacja bez ingerencji w BIOS i zaawansowane ustawienia sprzętowe.</p></div>
+    <div class="grid">
+      <article class="card reveal"><div class="icon">🪟</div><h3>Windows 11 OPTI</h3><p>Porządkowanie systemu i konfiguracja ustawień.</p><ul><li>Autostart i aplikacje w tle</li><li>Ustawienia systemowe</li><li>Pliki tymczasowe</li><li>Podstawowa kontrola aktualizacji</li></ul></article>
+      <article class="card reveal"><div class="icon">🎮</div><h3>Gaming OPTI</h3><p>Dostosowanie ustawień komputera i gier do sprzętu.</p><ul><li>Ustawienia trybu gry</li><li>Konfiguracja grafiki w grach</li><li>Ograniczenie zbędnych procesów</li><li>Test przed i po zmianach</li></ul></article>
+      <article class="card reveal"><div class="icon">🟩</div><h3>NVIDIA OPTI</h3><p>Konfiguracja dostępnych ustawień karty NVIDIA.</p><ul><li>Panel sterowania NVIDIA</li><li>Ustawienia 3D</li><li>Konfiguracja G-SYNC, jeśli dostępne</li><li>Ustawienia opóźnień</li></ul></article>
+    </div>
+  </div></section>
+
+  <section id="cennik"><div class="wrap">
+    <div class="section-head reveal"><div class="eyebrow">PROSTE CENY</div><h2>Cennik</h2><p>Wybierz zakres optymalizacji dopasowany do swoich potrzeb.</p></div>
+    <div class="grid">
+      <article class="card reveal"><h3>Windows 11 OPTI</h3><p>Podstawowe uporządkowanie systemu.</p><div class="price">15 zł</div><a class="btn secondary" href="https://discord.gg/vr5Qd4cEd" target="_blank" rel="noopener">Wybieram</a></article>
+      <article class="card featured reveal"><span class="popular">PEŁNY ZESTAW</span><h3>Full OPTI</h3><p>Windows 11 + NVIDIA + podstawowa konfiguracja gier.</p><div class="price">35 zł</div><a class="btn" href="https://discord.gg/vr5Qd4cEd" target="_blank" rel="noopener">Wybieram</a></article>
+      <article class="card reveal"><h3>NVIDIA OPTI</h3><p>Konfiguracja ustawień panelu NVIDIA.</p><div class="price">15 zł</div><a class="btn secondary" href="https://discord.gg/vr5Qd4cEd" target="_blank" rel="noopener">Wybieram</a></article>
+    </div>
+    <p class="note">Gaming OPTI: 20 zł. Zakres i cena są potwierdzane przed rozpoczęciem usługi.</p>
+  </div></section>
+
+  <section id="opinie"><div class="wrap">
+    <div class="section-head reveal"><div class="eyebrow">OPINIE</div><h2>Co mówią klienci?</h2><p>
+    <div class="reviews">
+      <article class="review reveal"><div class="stars">★★★★★</div><p>„Tutaj wstaw prawdziwą opinię klienta o wykonanej usłudze.”</p><strong>Klient Ashboost</strong><small>Windows 11 OPTI</small></article>
+      <article class="review reveal"><div class="stars">★★★★★</div><p>„Tutaj możesz dodać krótką opinię o konfiguracji NVIDIA lub gier.”</p><strong>Klient Ashboost</strong><small>NVIDIA OPTI</small></article>
+      <article class="review reveal"><div class="stars">★★★★★</div><p>„Zastąp ten tekst autentyczną opinią. Nie publikuj fikcyjnych recenzji.”</p><strong>Klient Ashboost</strong><small>Full OPTI</small></article>
+    </div>
+    <p class="review-note">
+  <section id="jak"><div class="wrap">
+    <div class="section-head reveal"><div class="eyebrow">JASNE ZASADY</div><h2>Jak działamy?</h2><p>Wiesz, co będzie zmieniane, zanim zaczniemy.</p></div>
+    <div class="steps">
+      <div class="step reveal"><div class="num">01</div><h3>Kontakt</h3><p>Wybierasz usługę i opisujesz swój komputer.</p></div>
+      <div class="step reveal"><div class="num">02</div><h3>Ustalenia</h3><p>Potwierdzamy zakres, cenę i sposób wykonania.</p></div>
+      <div class="step reveal"><div class="num">03</div><h3>Optymalizacja</h3><p>Wprowadzamy uzgodnione, bezpieczne zmiany.</p></div>
+      <div class="step reveal"><div class="num">04</div><h3>Podsumowanie</h3><p>Otrzymujesz listę zmian i wyniki testów, jeśli są dostępne.</p></div>
+    </div>
+  </div></section>
+
+  <section id="kontakt"><div class="wrap"><div class="cta reveal">
+    <div class="eyebrow">GOTOWY NA LEPSZĄ KONFIGURACJĘ?</div><h2>Skontaktuj się z Ashboost</h2>
+    <p>Wybierz usługę i otwórz ticket na naszym Discordzie.</p>
+    <a class="btn" href="https://discord.gg/vr5Qd4cEd" target="_blank" rel="noopener">Otwórz Discord</a>
+  </div></div></section>
+</main>
+
+<footer><div class="wrap foot"><span>© 2026 Ashboost. Wszystkie prawa zastrzeżone.</span><span>Windows 11 • NVIDIA • Gaming</span></div></footer>
+
+<script>
+  const menuToggle = document.getElementById('menuToggle');
+  const navLinks = document.getElementById('navLinks');
+
+  menuToggle.addEventListener('click', () => {
+    const isOpen = navLinks.classList.toggle('open');
+    menuToggle.setAttribute('aria-expanded', String(isOpen));
+    menuToggle.setAttribute('aria-label', isOpen ? 'Zamknij menu' : 'Otwórz menu');
+    menuToggle.textContent = isOpen ? '✕' : '☰';
+  });
+
+  navLinks.querySelectorAll('a').forEach(link => {
+    link.addEventListener('click', () => {
+      navLinks.classList.remove('open');
+      menuToggle.setAttribute('aria-expanded', 'false');
+      menuToggle.setAttribute('aria-label', 'Otwórz menu');
+      menuToggle.textContent = '☰';
+    });
+  });
+
+  const revealItems = document.querySelectorAll('.reveal');
+  if ('IntersectionObserver' in window) {
+    const observer = new IntersectionObserver((entries, obs) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          obs.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12 });
+    revealItems.forEach(item => observer.observe(item));
+  } else {
+    revealItems.forEach(item => item.classList.add('visible'));
+  }
+</script>
+</body>
+</html>
